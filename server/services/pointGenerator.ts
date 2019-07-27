@@ -1,6 +1,7 @@
 import request from "request";
 import { Readable } from "stream";
 import readline from "readline";
+import { StatusError } from "../utils/error";
 
 export interface Coordinate {
     lat: number,
@@ -37,7 +38,7 @@ class PointGenerator {
                 if (err) {
                     reject(err);
                 } else if (response.statusCode != 200) {
-                    reject(new Error("status code: " + response.statusCode));
+                    reject(new StatusError(response.statusCode, "Error requesting random integers from random.org"));
                 } else {
                     resolve(<string>body);
                 }

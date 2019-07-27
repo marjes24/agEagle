@@ -1,9 +1,13 @@
 import request from "request";
 import { Coordinate } from "./pointGenerator";
-import { OPEN_WEATHER_API } from "./readKeys";
+import { OPEN_WEATHER_API } from "../utils/readKeys";
+import { StatusError } from "../utils/error";
 
 type WeatherPoint = { [key: string]: any };
 
+/**
+ * Requests the weatherdata for a list of Coordinates
+ */
 class WeatherData {
     private coordinates: Coordinate[];
     private apiKey = OPEN_WEATHER_API;
@@ -41,7 +45,7 @@ class WeatherData {
                 if (err) {
                     reject(err);
                 } else if (response.statusCode != 200) {
-                    reject(new Error("Error requesting weather data, code: " + response.statusCode));
+                    reject(new StatusError(response.statusCode, "Error requesting weathermap data"));
                 } else {
                     resolve(body);
                 }
