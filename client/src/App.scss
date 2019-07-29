@@ -1,0 +1,43 @@
+@import "./shared/_shared.scss";
+
+body { 
+  height: 100vh;
+  width: 100vw;
+  background-color: $COMMON_BACKGROUND;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.App { 
+  height: 100%;
+  width: 100%;
+}
+
+#weather-app {
+  height: 100%;
+  width: 100%;
+}
+
+#side-bar {
+  display: inline-block;
+  width: 25%;
+  height: 100%;
+  #margin-menu { 
+    display: inline-block;
+    height: 100%;
+    width: 20%;
+    background-color: $DARK_BACKGROUND;
+  }
+  
+}
+
+#map-content {
+  display: inline-block;
+  height: 100%;
+  width: 75%;
+  background-color: $LIGHTEST_BLUE;
+}
