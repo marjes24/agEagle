@@ -1,5 +1,5 @@
 import request from "request";
-import { Coordinate } from "./pointGenerator";
+import { Coordinate } from "./coordinateGenerator";
 import { OPEN_WEATHER_API } from "../utils/readKeys";
 import { StatusError } from "../utils/error";
 
@@ -32,9 +32,9 @@ class WeatherData {
         return new Promise((resolve, reject) => {
             const base = "https://api.openweathermap.org/data/2.5/weather?";
             const formArg = (arg: string, value: string | number) => "&" + arg + "=" + value;
-            const url = base + 
-                formArg("lat", coord.lat) + 
-                formArg("lon", coord.long) + 
+            const url = base +
+                formArg("lat", coord.lat) +
+                formArg("lon", coord.long) +
                 formArg("appid", this.apiKey);
 
             request({
@@ -45,7 +45,11 @@ class WeatherData {
                 if (err) {
                     reject(err);
                 } else if (response.statusCode != 200) {
-                    reject(new StatusError(response.statusCode, "Error requesting weathermap data"));
+                    reject(new StatusError(
+                        response.statusCode,
+                        response.body,
+                        "Error requesting weathermap data")
+                    );
                 } else {
                     resolve(body);
                 }

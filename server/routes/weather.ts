@@ -1,7 +1,7 @@
 import { Router } from "express";
-import PointGenerator from "../services/pointGenerator";
+import CoordinateGenerator from "../services/coordinateGenerator";
 import WeatherData from "../services/weatherData";
-import { QueryError } from "../utils/error";
+import { QueryError, StatusError } from "../utils/error";
 
 const route = Router();
 
@@ -18,8 +18,8 @@ route.get("/data/random", async (req, res, next) => {
         const numPoints = Math.round(parseInt(points));
 
         // Generate random coordinates and get weather data
-        const pG = new PointGenerator;
-        const coordinates = await pG.getPoints(numPoints);
+        const cG = new CoordinateGenerator();
+        const coordinates = await cG.getCoordinates(numPoints);
 
         const wD = new WeatherData(coordinates);
         const data = await wD.getWeatherData();
@@ -32,6 +32,8 @@ route.get("/data/random", async (req, res, next) => {
 
         if(err instanceof QueryError) { 
             status = 400;
+            errMessage = err.message;
+        } else if (err instanceof StatusError) {
             errMessage = err.message;
         } else if (err instanceof Error) {
             errMessage = err.message;

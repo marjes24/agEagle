@@ -1,27 +1,35 @@
 import request from "request";
 import { Readable } from "stream";
 import readline from "readline";
+import { IntegerRequest } from "./integerRequest";
 import { StatusError } from "../utils/error";
 
-export interface Coordinate {
-    lat: number,
-    long: number
-}
 
-/**
- * Provides randomly generated coordinates
- */
-class PointGenerator {
-    constructor() { }
+export class IntegerRequestOpenAPI extends IntegerRequest {
+    constructor(min: number, max: number, n: number) {
+        super(min, max, n);
+    }
 
-    public async getPoints(numPoints: number) {
+    public async getInts() {
         try {
-            const randInts = await this.requestInts(numPoints * 2);
-            const coordinates = await this.parsePoints(randInts);
-            return coordinates;
+            const resp = await this.requestInts();
+            const intList = await this.parseResponse(resp);
+            return intList;
         } catch (err) {
             throw err;
         }
+    }
+
+    public getQuota(): Promise<string> {
+        return new Promise((resolve, reject) => {
+            request("https://www.random.org/quota/?format=plain", (err, response, body) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(<string>body);
+                }
+            });
+        });
     }
 
     /**
@@ -29,16 +37,18 @@ class PointGenerator {
      * Promise resolves with a text of integers, 2 integers per line
      * @param numInts Number of integers to request
      */
-    private requestInts(numInts: number): Promise<string> {
+    private requestInts(): Promise<string> {
         return new Promise((resolve, reject) => {
-            const url = this.formUrl(numInts, -180, 180);
+            const url = this.formUrl(this.numInts, this.minNumber, this.maxNumber);
             console.log("requestInts url: %s", url);
 
             request(url, (err, response, body) => {
                 if (err) {
                     reject(err);
                 } else if (response.statusCode != 200) {
-                    reject(new StatusError(response.statusCode, "Error requesting random integers from random.org"));
+                    let message = "Error requesting random integers from random.org";
+                    if (response.body) message += " response: " + response.body;
+                    reject(new StatusError(response.statusCode, message));
                 } else {
                     resolve(<string>body);
                 }
@@ -55,9 +65,9 @@ class PointGenerator {
         return url;
     }
 
-    private parsePoints(points: string): Promise<Coordinate[]> {
+    private parseResponse(points: string): Promise<number[]> {
         return new Promise((resolve, reject) => {
-            const coordinates = [] as Coordinate[];
+            const integers = [] as number[];
 
             const rStream = new Readable();
             rStream.push(points);
@@ -73,33 +83,18 @@ class PointGenerator {
                     console.log("Parse points, will force close");
                     rl.close();
                 } else {
-                    const cord = {
-                        lat: Math.round(parseInt(pairList[0]) / 2),
-                        long: parseInt(pairList[1])
-                    }
-                    coordinates.push(cord);
+                    pairList.forEach(x => {
+                        integers.push(parseInt(x));
+                    })
                 }
             });
 
 
             rl.on("close", () => {
-                resolve(coordinates);
-            });
-        })
-
-    }
-
-    public getQuota(): Promise<string> {
-        return new Promise((resolve, reject) => {
-            request("https://www.random.org/quota/?format=plain", (err, response, body) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(<string>body);
-                }
+                resolve(integers);
             });
         });
     }
 }
 
-export default PointGenerator;
+export default IntegerRequestOpenAPI;
