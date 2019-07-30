@@ -5,8 +5,37 @@ export enum loadState {
     ERROR
 };
 
+export type Coordinate = { lon: number, lat: number }
+
 export interface WeatherPoint {
-    [key: string]: string | number;
+    coord: Coordinate,
+    weather: {id: number, main: string, description: string, icon: string}[],
+    base: string,
+    main: {
+        temp: number, 
+        pressure: number, 
+        humidity: number,
+        temp_min: number, 
+        temp_max: number
+    }
+    visibility: number,
+    wind: { speed: number, deg: number },
+    clouds: { all: number },
+    rain?: { "1h": number, "3h": number },
+    snow?: { "1h": number, "3h": number },
+    dt: number, //Time of data calculating
+    sys: { 
+        type: number, 
+        id: number,
+        message: number,
+        country: string,
+        sunrise: number, 
+        sunset: number
+    }, 
+    timezone: number, 
+    id: number, 
+    name: string, 
+    cod: number
 };
 
 export interface WeatherState {

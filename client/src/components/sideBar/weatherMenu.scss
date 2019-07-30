@@ -1,0 +1,58 @@
+
+@mixin grow {
+    transition: all .2s ease-in-out; 
+    &:hover {
+        transform: scale(1.005); 
+    }
+}
+
+#weather-menu {
+    height: 100%;
+    padding: 40px 5%;
+    box-sizing: border-box;
+
+    .list-wrapper {
+        height: 100%;
+        width: 100%;
+        overflow-y: auto;
+    }
+
+    .list {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        overflow-y: auto;
+    }
+}
+
+.weather-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 350px;
+    height: 325px;
+    background-color: white;
+    border-radius: 10px;
+    margin-bottom: 50px;
+
+    box-sizing: border-box;
+    padding: 15px;
+    @include grow;
+    h5 {
+        color: grey;
+        margin: 0;
+    }
+    h3 { 
+        margin: 10px 0;
+    }
+    .description {
+        text-transform: capitalize;
+    }
+
+    .data-val {
+        display: flex;
+        justify-content: space-between;
+        line-height: 1.5em;
+        margin-bottom: 10px;
+    }
+}
