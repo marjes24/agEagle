@@ -1,8 +1,9 @@
+@import "../../shared/shared";
 
 @mixin grow {
     transition: all .2s ease-in-out; 
     &:hover {
-        transform: scale(1.005); 
+        transform: scale(1.008); 
     }
 }
 
@@ -37,7 +38,50 @@
 
     box-sizing: border-box;
     padding: 15px;
+
+    // box-shadow: 2px 2px 4px 2px lightgrey;
+    // width: 98%;
+    // border: 1px solid lightgrey;
+
+    
     @include grow;
+    &:hover { 
+        cursor: pointer;
+    }
+
+    h5 {
+        color: grey;
+        margin: 0;
+    }
+    h3 { 
+        margin: 10px 0;
+    }
+    .description {
+        text-transform: capitalize;
+    }
+
+    .data-val {
+        display: flex;
+        justify-content: space-between;
+        line-height: 1.5em;
+        margin-bottom: 10px;
+    }
+}
+
+.data-card-expanded { 
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+
+    box-sizing: border-box;
+    padding: 15px;
+
+    &:hover { 
+        cursor: pointer;
+    }
+
     h5 {
         color: grey;
         margin: 0;
