@@ -1,4 +1,5 @@
 import { ThunkAction } from "redux-thunk";
+import { AnyAction } from "redux";
 import {
     SET_WEATHER_ERROR,
     SET_WEATHER_DATA,
@@ -6,11 +7,12 @@ import {
     SetErrorAction,
     SetWeatherAction,
     LoadingStateAction,
-    WeatherPoint,
-    loadState,
-    WeatherActionTypes
+    WeatherPoint
 } from "./types";
 import { AppState } from "../"
+import { setSidebarDisplay } from "../sideBar/action";
+import { display } from "../sideBar/types";
+
 
 
 export const setWeather = (data: WeatherPoint[]): SetWeatherAction => {
@@ -33,7 +35,7 @@ export const setErrorAction = (message: string): SetErrorAction => {
     };
 };
 
-type ThunkReturn<R> = ThunkAction<R, AppState, void, WeatherActionTypes>
+type ThunkReturn<R> = ThunkAction<R, AppState, void, AnyAction>
 
 export const fetchWeather = (numPoints: number): ThunkReturn<Promise<void>> => {
     return async (dispatch, getState) => {
@@ -45,6 +47,7 @@ export const fetchWeather = (numPoints: number): ThunkReturn<Promise<void>> => {
             if(resp.ok) {
                 const dataPoints: WeatherPoint[] = await resp.json();
                 dispatch(setWeather(dataPoints));
+                dispatch(setSidebarDisplay(display.WEATHER_COORDS))
             } else {
                 throw Error("Error fetching weather data");
             }

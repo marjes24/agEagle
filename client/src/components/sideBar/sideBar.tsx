@@ -4,8 +4,8 @@ import { Dispatch, AnyAction } from "redux";
 import { AppState } from "../../store";
 import { display } from "../../store/sideBar/types";
 import MarginMenu from "./marginMenu";
+import MarginContent from "./marginContent"
 import { setSidebarDisplay } from "../../store/sideBar/action";
-
 
 const SideBar: React.FC = props => {
     const display = useSelector<AppState, display>(state => state.SidebarReducer.display);
@@ -18,6 +18,10 @@ const SideBar: React.FC = props => {
             <MarginMenu 
                 display={display}
                 setDisplay={setDisplay} 
+            />
+            <MarginContent 
+                display={display}
+                setDisplay={setDisplay}
             />
         </div>
     );
