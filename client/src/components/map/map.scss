@@ -1,0 +1,11 @@
+@import "../../shared/shared";
+.map-marker {
+    color: $DARKEST_BLUE;
+
+    &:hover {
+        cursor: pointer;
+    }
+    &.selected {
+        color: red;
+    }
+}

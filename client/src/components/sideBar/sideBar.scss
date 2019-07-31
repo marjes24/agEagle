@@ -5,11 +5,11 @@
     width: 25%;
     min-width: 430px;
     height: 100%;
-    background-color: $COMMON_BACKGROUND;
+    background-color: $LIGHT_GREY_BACKGROUND//$COMMON_BACKGROUND;
   }
 
 #margin-menu { 
-    width: 12%;
+    width: 50px;
     height: 100%;
     background-color: $DARK_BACKGROUND;
 
@@ -29,12 +29,12 @@
         width: 100%;
         cursor: pointer;
         &:hover { 
-            background-color: $MIDDLE_BLUE;
+            background-color:$LIGHT_BLUE;
         }
     }
 
     .nav.selected {
-        background-color: $LIGHT_BLUE;
+        background-color:  $MIDDLE_BLUE;
     }
 
     .menu-wrapper { 
