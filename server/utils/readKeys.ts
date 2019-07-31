@@ -2,6 +2,7 @@ import fs from "fs";
 
 let OPEN_WEATHER_API = "";
 let RANDOM_ORG_API = "";
+let MAP_BOX_API = "";
 
 try { 
     const rawData = fs.readFileSync("./secrets.json");
@@ -12,8 +13,11 @@ try {
     if("RANDOM_ORG_API" in data) {
         RANDOM_ORG_API = data.RANDOM_ORG_API.trim();
     }
+    if("MAP_BOX_API" in data) {
+        MAP_BOX_API = data.MAP_BOX_API.trim();
+    }
 } catch(err) {
     console.error("Error reading api keys, err: %s", err);
 }
 
-export { OPEN_WEATHER_API, RANDOM_ORG_API }
+export { OPEN_WEATHER_API, RANDOM_ORG_API, MAP_BOX_API }

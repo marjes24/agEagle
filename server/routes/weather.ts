@@ -2,6 +2,7 @@ import { Router } from "express";
 import CoordinateGenerator from "../services/coordinateGenerator";
 import WeatherData from "../services/weatherData";
 import { QueryError, StatusError } from "../utils/error";
+import { testWeatherData } from "../utils/getTestData";
 
 const route = Router();
 
@@ -81,5 +82,17 @@ route.get("/data/coordinate", async (req, res, next) => {
         res.type("text/plain").status(status).send(errMessage);
     }
 });
+
+
+/**
+ * API route for testing to prevent overusing api requests
+ */
+if(process.env.NODE_ENV === "development") {
+    route.get("/data/test", (req, res, next) => {
+        console.warn("USING TEST ROUTE");
+        res.set(200).send(testWeatherData());
+    });
+}
+
 
 export default route;

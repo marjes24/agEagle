@@ -35,6 +35,7 @@ class WeatherData {
             const url = base +
                 formArg("lat", coord.lat) +
                 formArg("lon", coord.long) +
+                formArg("units", "imperial") + 
                 formArg("appid", this.apiKey);
 
             request({
