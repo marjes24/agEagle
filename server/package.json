@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "Marcos Estrada",
-  "license": "MIT",
+  "license": "",
   "dependencies": {
     "express": "^4.17.1",
     "request": "^2.88.0",
