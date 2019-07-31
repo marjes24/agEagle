@@ -71,3 +71,41 @@ This project is an application that contains
 
 ### 3. Server is running on port 5000 and client should now be running on port 3000
 * Access the webpage from locahost:3000
+
+
+## Running Production Code
+---
+1. Complete the Set Up step from the running in development mode section
+2. If using yarn
+    ```bash
+    ## From project root directory
+    yarn build
+
+    ## Switch to build directory
+    cd build
+
+    ## Start server
+    yarn start-prod    
+    ```
+
+    If using npm
+    ```bash
+    ## Go into server directory and build
+    npm run build-prod-npm
+
+    ## Go into client directory and build
+    npm run build
+
+    ## In project root( not necessary but preferred for remaining instructions)
+    mkdir build
+    mkdir build/client
+
+    ## Copy content from server build to build
+    cp -r server/build/* build/
+
+    ## Copy client build to build
+    cp -r client/build build/client/
+
+    ## Inside build
+    npm run start-prod
+    ```

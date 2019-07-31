@@ -4,5 +4,14 @@
   "main": "index.js",
   "repository": "https://github.com/marjes24/agEagle.git",
   "author": "Marcos Estrada",
-  "license": ""
+  "license": "",
+  "scripts": {
+    "build-server": "cd server && yarn build-prod",
+    "build-client": "cd client && yarn build",
+    "make-build-file": "rm -rf build && mkdir build && mkdir build/client",
+    "copy-server": "cp -r server/build/* build/",
+    "copy-client": "cp -r client/build build/client/",
+    "copy": "yarn copy-server && yarn copy-client",
+    "build": "yarn build-server && yarn build-client && yarn make-build-file && yarn copy"
+  }
 }

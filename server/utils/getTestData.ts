@@ -85,7 +85,7 @@ export const testWeatherData = () => {
         },
         {
             "coord": {
-                "lon": 104,
+                "lon": 40,
                 "lat": 68
             },
             "weather": [
@@ -126,8 +126,8 @@ export const testWeatherData = () => {
         },
         {
             "coord": {
-                "lon": 26,
-                "lat": -65
+                "lon": 70,
+                "lat": -33
             },
             "weather": [
                 {
