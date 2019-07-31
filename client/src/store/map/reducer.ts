@@ -1,7 +1,8 @@
 import {
     MapState,
     MapActionTypes,
-    SET_LOCATION
+    SET_LOCATION,
+    CLEAR_LOCATION
 } from "./types";
 
 const initialState: MapState = {
@@ -15,6 +16,8 @@ export const MapReducer = (
     switch (action.type) {
         case SET_LOCATION:
             return { ...state, selectedLocation: action.location };
+        case CLEAR_LOCATION: 
+            return {...state, selectedLocation: null }
         default:
             return state;
     }

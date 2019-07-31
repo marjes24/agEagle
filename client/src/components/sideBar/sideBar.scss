@@ -5,7 +5,10 @@
     width: 25%;
     min-width: 430px;
     height: 100%;
-    background-color: $LIGHT_GREY_BACKGROUND//$COMMON_BACKGROUND;
+    background-color: $LIGHT_GREY_BACKGROUND;
+    &.with-border {
+        border-right: 1px $DARK_BLUE solid
+    };
   }
 
 #margin-menu { 
@@ -90,7 +93,7 @@
     }
 
     .loading-mssg {
-        color: white;
+        color: $DARKEST_BLUE;
         text-align: center;
         padding: 0 10%;
     }

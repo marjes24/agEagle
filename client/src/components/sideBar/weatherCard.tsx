@@ -1,12 +1,13 @@
 import React from "react";
-import { WeatherPoint, Coordinate } from "../../store/weather/types";
+import { Coordinate } from "../../store/weather/types";
 
 
 interface WeatherCardProps {
     coord: Coordinate,
     description: string,
     temperature: number,
-    humidity: number
+    humidity: number,
+    icon: string,
     pickWeatherCard: (coord: Coordinate) => void;
 }
 
@@ -15,7 +16,12 @@ export const WeatherCard: React.FC<WeatherCardProps> = props => {
         <div className="weather-card" onClick={e => props.pickWeatherCard(props.coord)}>
             <h5>Weather</h5>
             <h3>{generateLocation(props.coord)}</h3>
-            <div className="description">{props.description}</div>
+            <div className="description">
+                {props.description}
+                <img alt="" src={"http://openweathermap.org/img/wn/" + props.icon + ".png"} >
+                    {null}
+                </img>
+            </div>
             <br /><br />
             <CardValue name={"Temperature"} value={props.temperature} unit={"\u00B0F"} />
             <CardValue name={"Humidity"} value={props.humidity} unit="%" />

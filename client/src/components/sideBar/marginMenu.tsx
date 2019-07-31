@@ -36,7 +36,7 @@ const MarginMenu: FC<Props> = props => {
                         color="white"
                     />
                 </MarginItem>
-                <MarginItem 
+                {/* <MarginItem 
                     selected={displayEquals(display.SEARCH)} 
                     title="Search"
                     onClick={() => {props.setDisplay(display.SEARCH)}}
@@ -46,7 +46,7 @@ const MarginMenu: FC<Props> = props => {
                         size="lg"
                         color="white"
                     />
-                </MarginItem>
+                </MarginItem> */}
             </ul>
         </div>
     );

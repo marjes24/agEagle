@@ -5,10 +5,15 @@ export interface MapState {
 }
 
 export const SET_LOCATION = "SET_LOCATION";
+export const CLEAR_LOCATION = "CLEAR_LOCATION";
 
 export interface SetLocationAction { 
     type: typeof SET_LOCATION,
     location: Coordinate
 };
 
-export type MapActionTypes = SetLocationAction;
+export interface ClearLocationAction { 
+    type: typeof CLEAR_LOCATION
+};
+
+export type MapActionTypes = SetLocationAction | ClearLocationAction;

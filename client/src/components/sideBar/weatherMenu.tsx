@@ -13,15 +13,25 @@ const WeatherMenu: React.FC = props => {
     const dispatch = useDispatch<Dispatch<AnyAction>>();
     const { data } = useSelector<AppState, WeatherState>(state => state.weatherReducer);
 
-    const pickWeatherCard = (coord: Coordinate) => { 
+    const pickWeatherCard = (coord: Coordinate) => {
         dispatch(setLocation(coord));
         dispatch(setSidebarDisplay(display.WEATHER));
+    }
+
+    if(data.length === 0) {
+        return (
+            <div id="weather-menu" className="menu-wrapper">
+                <div className="data-warning">
+                    No weather data has been loaded...
+                </div>
+            </div>
+        );
     }
 
     return (
         <div id="weather-menu" className="menu-wrapper">
             <div className="list-wrapper">
-                <WeatherCardList data={data} pickWeatherCard={pickWeatherCard}/>
+                <WeatherCardList data={data} pickWeatherCard={pickWeatherCard} />
             </div>
         </div>
     );

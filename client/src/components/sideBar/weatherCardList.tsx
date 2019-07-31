@@ -14,7 +14,8 @@ const WeatherCardList: React.FC<Props> = props => {
             description: wP.weather[0].description,
             temperature: wP.main.temp,
             humidity: wP.main.humidity,
-            pickWeatherCard: props.pickWeatherCard
+            pickWeatherCard: props.pickWeatherCard,
+            icon: wP.weather[0].icon
         };
     };
 

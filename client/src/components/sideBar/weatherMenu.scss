@@ -3,15 +3,30 @@
 @mixin grow {
     transition: all .2s ease-in-out; 
     &:hover {
-        transform: scale(1.008); 
+        transform: scale(1.009); 
     }
 }
 
 #weather-menu {
     height: 100%;
-    padding: 45px 5%;
+    padding: 50px 5%;
     box-sizing: border-box;
 
+
+    &.data {
+        flex-direction: column;
+        padding: 15px;
+        .nav-wrapper {
+            height: 40px;
+        }
+        .nav-wrapper .back-arrow {
+            float: right;
+            color: $DARKEST_BLUE;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
     .list-wrapper {
         height: 100%;
         width: 100%;
@@ -25,6 +40,14 @@
         width: 100%;
         overflow-y: auto;
     }
+
+    .data-warning {
+        text-align: center;
+        color: $DARKEST_BLUE;
+        font-size: 25px;
+        font-weight: bold;
+        margin-top: 50px;
+    }
 }
 
 .weather-card {
@@ -32,18 +55,12 @@
     flex-direction: column;
     width: 100%;
     max-width: 350px;
-    //height: 325px;
     background-color: white;
     border-radius: 10px;
     margin-bottom: 20px;
 
     box-sizing: border-box;
     padding: 15px;
-
-    // box-shadow: 2px 2px 4px 2px lightgrey;
-    // width: 98%;
-    // border: 1px solid lightgrey;
-
     
     @include grow;
     &:hover { 
@@ -51,21 +68,26 @@
     }
 
     h5 {
+        font-size: 14px;
+        font-weight: 600;
         color: grey;
         margin: 0;
     }
     h3 { 
         margin: 10px 0;
+        font-weight: 600;
     }
     .description {
         text-transform: capitalize;
+        display: flex;
+        align-items: center;
     }
 
     .data-val {
         display: flex;
         justify-content: space-between;
         line-height: 1.5em;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
 }
 
@@ -84,14 +106,21 @@
     }
 
     h5 {
+        font-size: 14px;
+        font-weight: 600;
         color: grey;
         margin: 0;
     }
+
     h3 { 
         margin: 10px 0;
+        font-weight: 600;
     }
+
     .description {
         text-transform: capitalize;
+        display: flex;
+        align-items: center;
     }
 
     .data-val {
