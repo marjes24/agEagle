@@ -1,4 +1,8 @@
 @import "../../shared/shared";
+
+.map-anchor { 
+    &:hover { cursor: pointer }
+}
 .map-marker {
     color: $DARKEST_BLUE;
 
@@ -8,4 +12,15 @@
     &.selected {
         color: red;
     }
+}
+
+.map-instruction { 
+    position: absolute;
+    background-color: $LIGHT_GREY_BACKGROUND;
+    color: $DARKEST_BLUE;
+    padding: 15px;
+    right: 30px;
+    top: 30px;
+    z-index: 5;
+    border-radius: 5px;
 }

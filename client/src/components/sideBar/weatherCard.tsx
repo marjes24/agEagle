@@ -46,7 +46,7 @@ export const generateLocation = (coords: Coordinate) => {
 
 export const CardValue: React.FC<{ name: string, value: number | string, unit?: string }> = props => {
     let { unit } = props;
-    if (unit == undefined) unit = "";
+    if (unit === undefined) unit = "";
 
     return (
         <div className="data-val">

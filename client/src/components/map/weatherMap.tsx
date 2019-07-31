@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
+import ReactMapboxGl from 'react-mapbox-gl';
 
 import "./map.scss";
 import FeatureLayer from "./featureLayer";
+import Instruction from "./instruction";
 
 const WeatherMap: React.FC = () => {
     const [token, setToken] = useState("");
@@ -20,7 +21,7 @@ const WeatherMap: React.FC = () => {
         fetchToken();
     }, []);
 
-    if(token == "") {
+    if(token === "") {
         return <div id="map-content"/>
     }
 
@@ -30,6 +31,7 @@ const WeatherMap: React.FC = () => {
 
     return (
         <div id="map-content">
+            <Instruction />
             <Map
                 style="mapbox://styles/mapbox/streets-v9"
                 containerStyle={{

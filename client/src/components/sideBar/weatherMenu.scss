@@ -12,6 +12,12 @@
     padding: 50px 5%;
     box-sizing: border-box;
 
+    .menu-title {
+        position: absolute;
+        top: 15px;
+        color: $DARKEST_BLUE;
+        font-size: 18px;
+    }
 
     &.data {
         flex-direction: column;

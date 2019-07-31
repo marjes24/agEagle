@@ -68,3 +68,6 @@ This project is an application that contains
         ## If using npm
         npm run start
     ```
+
+### 3. Server is running on port 5000 and client should now be running on port 3000
+* Access the webpage from locahost:3000

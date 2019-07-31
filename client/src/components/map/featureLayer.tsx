@@ -1,8 +1,9 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Layer, Feature, Marker } from "react-mapbox-gl";
+import { Marker } from "react-mapbox-gl";
 import { faCloud } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ReactTooltip from "react-tooltip";
 
 import { AppState } from "../../store/";
 import { WeatherState, Coordinate } from "../../store/weather/types";
@@ -27,20 +28,43 @@ const FeatureLayer: React.FC = props => {
         dispatch(setSidebarDisplay(display.WEATHER));
     }
 
+    const coordStr = (coords: Coordinate) => {
+        const { lat, lon } = coords;
+        let locStr = "";
+        locStr +=
+            Math.abs(lat) +
+            "\u00B0" +
+            (lat < 0 ? "S" : "N") +
+            " " +
+            Math.abs(lon) +
+            "\u00B0" +
+            (lon < 0 ? "E" : "W");
+        return locStr;
+    };
+
     return (
         <>
             {
-                data.map(wP => {
+                data.map((wP,idx) => {
                     
                     return <Marker
                         coordinates={[wP.coord.lon, wP.coord.lat]}
                         onClick={e => pickCoord(wP.coord)}
+                        key={idx}
                     >
-                        <FontAwesomeIcon
-                            icon={faCloud}
-                            size="3x"
-                            className={ "map-marker" + (isSelected(wP.coord) ? " selected" : "")}
-                        />
+                        <a 
+                            data-for={"mrkr-" + idx}
+                            className="map-anchor" 
+                            data-tip={coordStr(wP.coord)}
+                        >
+                            <FontAwesomeIcon
+                                icon={faCloud}
+                                size="3x"
+                                className={ "map-marker" + (isSelected(wP.coord) ? " selected" : "")}
+                            />
+                             <ReactTooltip id={"mrkr-" + idx} place="top" multiline={false}/>
+                        </a>
+                       
                     </Marker>
                 })
             }

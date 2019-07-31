@@ -23,7 +23,7 @@ const WeatherCardList: React.FC<Props> = props => {
         <div className="list">
             {
                 props.data.map((wp, idx) => {
-                    return <WeatherCard {...extractData(wp)} />
+                    return <WeatherCard {...extractData(wp)} key={idx}/>
                 })
             }
         </div>

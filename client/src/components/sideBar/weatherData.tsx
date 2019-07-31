@@ -4,7 +4,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AppState } from "../../store";
 import { generateLocation, CardValue } from "./weatherCard";
-import { WeatherPoint, WeatherState, Coordinate } from "../../store/weather/types";
+import { WeatherPoint, WeatherState } from "../../store/weather/types";
 import { MapState } from "../../store/map/types";
 import { setSidebarDisplay } from "../../store/sideBar/action";
 import { display } from "../../store/sideBar/types";
@@ -26,7 +26,7 @@ const WeatherData: React.FC = props => {
     // Search data for selected location
     let wP: WeatherPoint | null = null;
     for (let p of data) {
-        if (p.coord.lat == coord.lat && p.coord.lon == coord.lon) {
+        if (p.coord.lat === coord.lat && p.coord.lon === coord.lon) {
             wP = p;
             break;
         }
@@ -37,6 +37,7 @@ const WeatherData: React.FC = props => {
 
     return (
         <div id="weather-menu" className="data menu-wrapper">
+            <div className="menu-title">Detailed View</div>
             <div className="nav-wrapper">
                 <span onClick={e => { goBack() }}>
                     <FontAwesomeIcon
@@ -79,8 +80,8 @@ const WeatherData: React.FC = props => {
                     wP.rain !== undefined &&
                     <>
                         <h5>Rain</h5>
-                        <CardValue name={"Las hour"} value={wP.rain["1h"]} unit={"\u00B0"} />
-                        <CardValue name={"Last three hours"} value={wP.rain["3h"]} unit={"mm"} />
+                        { wP.rain["1h"] !== undefined && <CardValue name={"Las hour"} value={wP.rain["1h"]} unit={"mm"} /> }
+                        { wP.rain["3h"] !== undefined && <CardValue name={"Last three hours"} value={wP.rain["3h"]} unit={"mm"} />}
                         <br />
                     </>
                 }
@@ -88,8 +89,8 @@ const WeatherData: React.FC = props => {
                     wP.snow !== undefined &&
                     <>
                         <h5>Snow</h5>
-                        <CardValue name={"Las hour"} value={wP.snow["1h"]} unit={"\u00B0"} />
-                        <CardValue name={"Last three hours"} value={wP.snow["3h"]} unit={"mm"} />
+                        { wP.snow["1h"] !== undefined && <CardValue name={"Las hour"} value={wP.snow["1h"]} unit={"mm"} /> }
+                        { wP.snow["3h"] !== undefined && <CardValue name={"Last three hours"} value={wP.snow["3h"]} unit={"mm"} /> }
                         <br />
                     </>
                 }

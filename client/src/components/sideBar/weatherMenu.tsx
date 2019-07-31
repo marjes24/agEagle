@@ -30,6 +30,7 @@ const WeatherMenu: React.FC = props => {
 
     return (
         <div id="weather-menu" className="menu-wrapper">
+            <div className="menu-title">Quick View</div>
             <div className="list-wrapper">
                 <WeatherCardList data={data} pickWeatherCard={pickWeatherCard} />
             </div>
