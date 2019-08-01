@@ -11,6 +11,7 @@ import { setLocation } from "../../store/map/action";
 import { setSidebarDisplay } from "../../store/sideBar/action";
 import { display } from "../../store/sideBar/types";
 import { MapState } from "../../store/map/types";
+import { genCoordStr } from "../../shared/genCoordString";
 
 const FeatureLayer: React.FC = props => {
     const { data } = useSelector<AppState, WeatherState>(state => state.weatherReducer);
@@ -28,19 +29,6 @@ const FeatureLayer: React.FC = props => {
         dispatch(setSidebarDisplay(display.WEATHER));
     }
 
-    const coordStr = (coords: Coordinate) => {
-        const { lat, lon } = coords;
-        let locStr = "";
-        locStr +=
-            Math.abs(lat) +
-            "\u00B0" +
-            (lat < 0 ? "S" : "N") +
-            " " +
-            Math.abs(lon) +
-            "\u00B0" +
-            (lon < 0 ? "E" : "W");
-        return locStr;
-    };
 
     return (
         <>
@@ -55,7 +43,7 @@ const FeatureLayer: React.FC = props => {
                         <a 
                             data-for={"mrkr-" + idx}
                             className="map-anchor" 
-                            data-tip={coordStr(wP.coord)}
+                            data-tip={genCoordStr(wP.coord)}
                         >
                             <FontAwesomeIcon
                                 icon={faCloud}

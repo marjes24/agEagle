@@ -3,12 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AppState } from "../../store";
-import { generateLocation, CardValue } from "./weatherCard";
+import { CardValue } from "./weatherCard";
 import { WeatherPoint, WeatherState } from "../../store/weather/types";
 import { MapState } from "../../store/map/types";
 import { setSidebarDisplay } from "../../store/sideBar/action";
 import { display } from "../../store/sideBar/types";
 import { clearLocation } from "../../store/map/action";
+import { genCoordStr } from "../../shared/genCoordString";
 
 
 const WeatherData: React.FC = props => {
@@ -50,7 +51,7 @@ const WeatherData: React.FC = props => {
             </div>
             <div className="data-card-expanded">
                 <h5>Weather</h5>
-                <h3>{generateLocation(wP.coord)}</h3>
+                <h3>{genCoordStr(wP.coord)}</h3>
                 <div className="description">
                     {wP.weather[0].description}
                     <img 

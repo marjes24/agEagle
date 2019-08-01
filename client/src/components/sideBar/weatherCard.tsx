@@ -1,5 +1,6 @@
 import React from "react";
 import { Coordinate } from "../../store/weather/types";
+import { genCoordStr } from "../../shared/genCoordString";
 
 
 interface WeatherCardProps {
@@ -15,7 +16,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = props => {
     return (
         <div className="weather-card" onClick={e => props.pickWeatherCard(props.coord)}>
             <h5>Weather</h5>
-            <h3>{generateLocation(props.coord)}</h3>
+            <h3>{genCoordStr(props.coord)}</h3>
             <div className="description">
                 {props.description}
                 <img alt="" src={"http://openweathermap.org/img/wn/" + props.icon + ".png"} >
@@ -29,20 +30,6 @@ export const WeatherCard: React.FC<WeatherCardProps> = props => {
     );
 };
 
-// Generate a location string
-export const generateLocation = (coords: Coordinate) => {
-    const { lat, lon } = coords;
-    let locStr = "";
-    locStr +=
-        Math.abs(lat) +
-        "\u00B0" +
-        (lat < 0 ? "S" : "N") +
-        " " +
-        Math.abs(lon) +
-        "\u00B0" +
-        (lon < 0 ? "E" : "W");
-    return locStr;
-};
 
 export const CardValue: React.FC<{ name: string, value: number | string, unit?: string }> = props => {
     let { unit } = props;
