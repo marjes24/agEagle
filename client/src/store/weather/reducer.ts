@@ -4,7 +4,8 @@ import {
     loadState,
     SET_WEATHER_ERROR,
     SET_WEATHER_DATA,
-    SET_WEATHER_LOADING
+    SET_WEATHER_LOADING,
+    CLEAR_WEATHER_ERROR
 } from "./types";
 
 const initialState: WeatherState = {
@@ -35,6 +36,11 @@ export const weatherReducer = (
                 ...state,
                 loadState: loadState.LOADING,
             };
+        case CLEAR_WEATHER_ERROR: 
+            return {
+                ...state, 
+                loadState: loadState.INIT
+            }
         default:
             return state;
     };

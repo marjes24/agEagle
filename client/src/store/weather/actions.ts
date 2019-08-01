@@ -7,7 +7,9 @@ import {
     SetErrorAction,
     SetWeatherAction,
     LoadingStateAction,
-    WeatherPoint
+    WeatherPoint,
+    ClearWeatherErrorAction,
+    CLEAR_WEATHER_ERROR
 } from "./types";
 import { AppState } from "../"
 import { setSidebarDisplay } from "../sideBar/action";
@@ -32,6 +34,12 @@ export const setErrorAction = (message: string): SetErrorAction => {
     return {
         type: SET_WEATHER_ERROR,
         message
+    };
+};
+
+export const clearWeatherError = (): ClearWeatherErrorAction => {
+    return {
+        type: CLEAR_WEATHER_ERROR
     };
 };
 

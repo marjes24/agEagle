@@ -47,6 +47,7 @@ export interface WeatherState {
 export const SET_WEATHER_ERROR   = "SET_WEATHER_ERROR";
 export const SET_WEATHER_DATA    = "SET_WEATHER_DATA";
 export const SET_WEATHER_LOADING = "SET_WEATHER_LOADING";
+export const CLEAR_WEATHER_ERROR = "CLEAR_WEATHER_ERROR";
 
 export interface SetErrorAction {
     type: typeof SET_WEATHER_ERROR,
@@ -62,7 +63,12 @@ export interface LoadingStateAction {
     type: typeof SET_WEATHER_LOADING
 }
 
+export interface ClearWeatherErrorAction { 
+    type: typeof CLEAR_WEATHER_ERROR;
+}
+
 export type WeatherActionTypes =
     SetErrorAction |
     SetWeatherAction |
-    LoadingStateAction;
+    LoadingStateAction | 
+    ClearWeatherErrorAction;

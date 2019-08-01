@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { WeatherState, loadState as LoadingStates } from "../../store/weather/types";
 import { AppState } from "../../store";
-import { fetchWeather } from "../../store/weather/actions";
+import { fetchWeather, clearWeatherError } from "../../store/weather/actions";
 
 // validate a string is all digits
 const allDigits = (s: string) => {
@@ -18,6 +18,14 @@ const RequestMenu: React.FC = props => {
     // Get necessary redux state and action dispatching
     const { loadState } = useSelector<AppState, WeatherState>(state => state.weatherReducer);
     const dispatch = useDispatch<ThunkDispatch<AppState, void, AnyAction>>();
+
+    useEffect(() => {
+        if (loadState === LoadingStates.ERROR) {
+            setTimeout(() => {
+                dispatch(clearWeatherError());
+            }, 5000);
+        }
+    }, [loadState]);
 
     const requestWeather = (numPoints: number) => dispatch(fetchWeather(numPoints));
 
@@ -33,6 +41,14 @@ const RequestMenu: React.FC = props => {
             </div>
         )
     }
+
+    if (loadState === LoadingStates.ERROR) {
+        return (
+            <div id="request-menu" className="menu-wrapper">
+                <Error />
+            </div>
+        );
+    };
 
     return (
         <div id="request-menu" className="menu-wrapper">
@@ -76,5 +92,15 @@ const Loading: React.FC = props => {
         </div>
     );
 }
+
+const Error: React.FC = props => {
+    return (
+        <div className="loading-mssg">
+            <h1>Error loading weather data..</h1>
+        </div>
+    );
+}
+
+
 
 export default RequestMenu;
