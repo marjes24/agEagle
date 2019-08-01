@@ -4,6 +4,7 @@ import {
     loadState,
     SET_WEATHER_ERROR,
     SET_WEATHER_DATA,
+    ADD_WEATHER_DATA,
     SET_WEATHER_LOADING,
     CLEAR_WEATHER_ERROR
 } from "./types";
@@ -23,6 +24,12 @@ export const weatherReducer = (
             return {
                 ...state,
                 data: action.payload,
+                loadState: loadState.LOADED
+            };
+        case ADD_WEATHER_DATA: 
+            return {
+                ...state, 
+                data: [...state.data, ...action.payload],
                 loadState: loadState.LOADED
             };
         case SET_WEATHER_ERROR:

@@ -5,20 +5,15 @@ import { AnyAction } from "redux";
 import { WeatherState, loadState as LoadingStates } from "../../store/weather/types";
 import { AppState } from "../../store";
 import { fetchWeather, clearWeatherError } from "../../store/weather/actions";
-
-// validate a string is all digits
-const allDigits = (s: string) => {
-    for (let char of s) {
-        if (isNaN(parseInt(char))) return false;
-    }
-    return true;
-}
+import { allDigits } from "../../shared/allDigits";
 
 const RequestMenu: React.FC = props => {
     // Get necessary redux state and action dispatching
     const { loadState } = useSelector<AppState, WeatherState>(state => state.weatherReducer);
     const dispatch = useDispatch<ThunkDispatch<AppState, void, AnyAction>>();
-
+    const requestWeather = (numPoints: number) => dispatch(fetchWeather(numPoints));
+    
+    // If error, clear after 5 seconds
     useEffect(() => {
         if (loadState === LoadingStates.ERROR) {
             setTimeout(() => {
@@ -26,8 +21,6 @@ const RequestMenu: React.FC = props => {
             }, 5000);
         }
     }, [loadState]);
-
-    const requestWeather = (numPoints: number) => dispatch(fetchWeather(numPoints));
 
     // Set component state
     const [optionState, setOptions] = useState({
@@ -45,13 +38,14 @@ const RequestMenu: React.FC = props => {
     if (loadState === LoadingStates.ERROR) {
         return (
             <div id="request-menu" className="menu-wrapper">
-                <Error />
+                <ErrorMessage />
             </div>
         );
     };
 
     return (
         <div id="request-menu" className="menu-wrapper">
+            <div className="menu-title">Request weather data</div>
             <input
                 id="point-input"
                 type="text"
@@ -85,7 +79,7 @@ const RequestMenu: React.FC = props => {
     );
 };
 
-const Loading: React.FC = props => {
+export const Loading: React.FC = props => {
     return (
         <div className="loading-mssg">
             <h1>Loading weather data...</h1>
@@ -93,7 +87,7 @@ const Loading: React.FC = props => {
     );
 }
 
-const Error: React.FC = props => {
+export const ErrorMessage: React.FC = props => {
     return (
         <div className="loading-mssg">
             <h1>Error loading weather data..</h1>

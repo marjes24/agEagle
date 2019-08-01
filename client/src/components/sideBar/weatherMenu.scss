@@ -9,15 +9,8 @@
 
 #weather-menu {
     height: 100%;
-    padding: 50px 5%;
+    padding: 50px 20px;
     box-sizing: border-box;
-
-    .menu-title {
-        position: absolute;
-        top: 15px;
-        color: $DARKEST_BLUE;
-        font-size: 18px;
-    }
 
     &.data {
         flex-direction: column;

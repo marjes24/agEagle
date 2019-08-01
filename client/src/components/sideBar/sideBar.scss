@@ -40,16 +40,29 @@
     .nav.selected {
         background-color:  $MIDDLE_BLUE;
     }
-
-    .menu-wrapper { 
-        height: 100%;
-        width: 100%;
-    }
-
 }
 
 #margin-content {
     flex-grow: 1;
+    .menu-title {
+        position: absolute;
+        top: 15px;
+        left: 70px;
+        color: $DARKEST_BLUE;
+        font-size: 18px;
+    }
+    .menu-wrapper {
+        height: 100%;
+        padding: 50px 20px;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .loading-mssg {
+        color: $DARKEST_BLUE;
+        text-align: center;
+        padding: 0 10%;
+    }
 }
 
 #request-menu {
@@ -58,45 +71,64 @@
     flex-direction: column;
     justify-content: center;
     #point-input {
-        width: 70%;
+        width: 80%;
         height: 3em;
         border-radius: 10px;
-        margin: auto;
+        margin-top: 5px;
         outline: none;
-        padding: 0 10px;
         border-style: none;
-        
+        padding: 0 10px;
         font-size: 15px;
+        box-sizing: border-box;
+    }
+}
+
+.button-wrapper {
+    width: 80%;
+    padding: 25px 10%;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+
+    button {
+        height: 2.25rem;
+        border-radius: 10px;
+        width: 40%;
+        margin: 10px;
     }
 
-    .button-wrapper {
-        padding: 25px 10%;
-        text-align: center;
-        display: flex;
-        justify-content: space-between;
-
-        button {
-            height: 2.25rem;
-            border-radius: 10px;
-            width: 40%;
-            margin: 10px;
-        }
-
-        button.btn-submit {
-            color: white;
-            background-color: $DARKEST_BLUE;
-        }
-
-        button.btn-cancel {
-            color: $DARKEST_BLUE;
-            background-color: white;
-        }
+    button.btn-submit {
+        color: white;
+        background-color: $DARKEST_BLUE;
     }
 
-    .loading-mssg {
+    button.btn-cancel {
         color: $DARKEST_BLUE;
-        text-align: center;
-        padding: 0 10%;
+        background-color: white;
     }
-    
+}
+
+#add-weather-menu {
+    display: flex;
+    padding: 40px 20px;
+    flex-direction: column;
+    justify-content: center;
+
+    input[type="text"] {
+        width: 80%;
+        height: 3em;
+        border-radius: 10px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        outline: none;
+        border-style: none;
+        padding: 0 10px;
+        font-size: 15px;
+        box-sizing: border-box;
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+    }
+
 }

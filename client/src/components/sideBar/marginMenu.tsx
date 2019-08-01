@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { display } from "../../store/sideBar/types";
-import { faCloud, faSync, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faCloud, faSync, faSearch, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./sideBar.scss";
 
@@ -32,6 +32,17 @@ const MarginMenu: FC<Props> = props => {
                 >
                     <FontAwesomeIcon
                         icon={faSync}
+                        size="lg"
+                        color="white"
+                    />
+                </MarginItem>
+                <MarginItem
+                    selected={displayEquals(display.ADD_COORD)}
+                    title="Add coordinate"
+                    onClick={() => {props.setDisplay(display.ADD_COORD)}}
+                >
+                    <FontAwesomeIcon 
+                        icon={faPlus}
                         size="lg"
                         color="white"
                     />

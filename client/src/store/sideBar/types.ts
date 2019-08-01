@@ -2,7 +2,8 @@ export enum display {
     WEATHER_COORDS = "WEATHER_COORDS",
     WEATHER = "WEATHER",
     WEATHER_REQUEST = "WEATHER_REQUEST",
-    SEARCH = "SEARCH"
+    SEARCH = "SEARCH",
+    ADD_COORD = "ADD_COORD"
 }
 
 export interface SidebarState { 
