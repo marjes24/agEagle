@@ -3,25 +3,29 @@ import CoordinateGenerator from "../services/coordinateGenerator";
 import WeatherData from "../services/weatherData";
 import { QueryError, StatusError } from "../utils/error";
 import { testWeatherData } from "../utils/getTestData";
+import { validateWeatherQuery } from "../middleware/validateWeatherQuery";
 
 const route = Router();
 
-route.get("/data/random", async (req, res, next) => {
+route.get("/data/random", validateWeatherQuery, async (req, res, next) => {
     try {
-        type queryArgs = { points: string, [key: string]: string };
+        type queryArgs = { 
+            latRange: string, 
+            lonRange: string,
+            points: string, 
+            [key: string]: string 
+        };
 
-        // Read and validate query arg
+        // Read query args
         const { points } = <queryArgs>req.query;
-        if (points == undefined) throw new QueryError("Undefined query argument: points=<int>");
-        if (isNaN(parseInt(points))) throw new QueryError("Argument points=<int> is not an integer");
-        if (parseInt(points) < 0) throw new QueryError("Argument points=<int> must be positive");
-
         const numPoints = Math.round(parseInt(points));
+        const { latRange, lonRange } = req.query;
 
-        // Generate random coordinates and get weather data
+        // Generate random coordinates
         const cG = new CoordinateGenerator();
-        const coordinates = await cG.getCoordinates(numPoints);
+        const coordinates = await cG.getCoordinates(numPoints, latRange, lonRange);
 
+        // Get weather data
         const wD = new WeatherData(coordinates);
         const data = await wD.getWeatherData();
 
@@ -31,7 +35,7 @@ route.get("/data/random", async (req, res, next) => {
         let status = 500;
         let errMessage = "Something went wrong";
 
-        if(err instanceof QueryError) { 
+        if (err instanceof QueryError) {
             status = 400;
             errMessage = err.message;
         } else if (err instanceof StatusError) {
@@ -44,20 +48,22 @@ route.get("/data/random", async (req, res, next) => {
     }
 });
 
+
+
 route.get("/data/coordinate", async (req, res, next) => {
-    try { 
+    try {
         type queryArgs = { lat: string, long: string, [key: string]: any };
         const { lat, long } = req.query as queryArgs;
 
         // Validate query arguments
         let queryError = false;
-        if(lat == null || long == null) queryError = true;
-        if(isNaN(parseInt(lat)) || isNaN(parseInt(long))) queryError = true;
-        if(Math.abs(parseInt(lat)) > 90 || Math.abs(parseInt(long)) > 180) queryError = true;
-        if(queryError)
+        if (lat == null || long == null) queryError = true;
+        if (isNaN(parseInt(lat)) || isNaN(parseInt(long))) queryError = true;
+        if (Math.abs(parseInt(lat)) > 90 || Math.abs(parseInt(long)) > 180) queryError = true;
+        if (queryError)
             throw new QueryError("Error in query arguments: lat=<int> long=<int> where abs(lat) < 90 and abs(long) < 180");
 
-        const coord = { 
+        const coord = {
             lat: Math.round(parseInt(lat)),
             long: Math.round(parseInt(long))
         };
@@ -67,12 +73,12 @@ route.get("/data/coordinate", async (req, res, next) => {
         const data = await wD.getWeatherData();
 
         res.status(200).json(data);
-    } catch(err) { 
+    } catch (err) {
         console.error("/data/coordinate error: %s", err);
         let status = 500;
         let errMessage = "Something went wrong";
 
-        if(err instanceof QueryError) { 
+        if (err instanceof QueryError) {
             status = 400;
             errMessage = err.message;
         } else if (err instanceof Error) {
@@ -87,7 +93,7 @@ route.get("/data/coordinate", async (req, res, next) => {
 /**
  * API route for testing to prevent overusing api requests
  */
-if(process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "development") {
     route.get("/data/test", (req, res, next) => {
         console.warn("USING TEST ROUTE");
         res.set(200).send(testWeatherData());
