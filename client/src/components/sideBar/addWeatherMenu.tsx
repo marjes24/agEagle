@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchWeatherPoint } from "../../store/weather/actions";
 import { ErrorMessage, Loading } from "./requestMenu";
 import { AppState } from "../../store";
-import { WeatherState, loadState as LoadingStates } from "../../store/weather/types";
+import { loadState as LoadingStates } from "../../store/weather/types";
 
 const validInput = (s: string) => {
     // Check if empty or if negative
@@ -19,7 +19,7 @@ const validInput = (s: string) => {
 
 const AddWeatherMenu: React.FC = props => {
     const dispatch = useDispatch();
-    const { loadState } = useSelector((state: AppState) => state.weatherReducer);
+    const { loadState, error: errMessage } = useSelector((state: AppState) => state.weatherReducer);
     const [coord, setOptions] = useState({
         lon: "",
         lat: ""
@@ -56,7 +56,7 @@ const AddWeatherMenu: React.FC = props => {
     if (loadState === LoadingStates.ERROR) {
         return (
             <div id="add-weather-menu" className="menu-wrapper">
-                <ErrorMessage />
+                <ErrorMessage message={errMessage || "" }/>
             </div>
         );
     };

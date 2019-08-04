@@ -58,19 +58,39 @@ export const clearWeatherError = (): ClearWeatherErrorAction => {
 
 type ThunkReturn<R> = ThunkAction<R, AppState, void, AnyAction>
 
-export const fetchWeather = (numPoints: number): ThunkReturn<Promise<void>> => {
+export const fetchWeather = (
+    numPoints: number, 
+    minLat?: string,
+    maxLat?: string, 
+    minLon?: string, 
+    maxLon?: string
+): ThunkReturn<Promise<void>> => {
     return async (dispatch, getState) => {
         try {
             dispatch(setWeatherLoading());
+
+            const formArg = (arg: string, value: string | undefined) => {
+                if(!value) return "";
+                return "&" + arg + "=" + value;
+            }
             
-            const apiReq = "/weather/data/random?points=" + numPoints;
+            let apiReq = 
+                "/weather/data/random?points=" + 
+                numPoints + 
+                formArg("minLat", minLat) + 
+                formArg("maxLat", maxLat) + 
+                formArg("minLon", minLon) + 
+                formArg("maxLon", maxLon);
+
             const resp = await fetch(apiReq);
             if(resp.ok) {
                 const dataPoints: WeatherPoint[] = await resp.json();
                 dispatch(setWeather(dataPoints));
                 dispatch(setSidebarDisplay(display.WEATHER_COORDS))
             } else {
-                throw Error("Error fetching weather data");
+                let errMssg = resp.status + ": ";
+                errMssg += await resp.text();
+                throw Error(errMssg);
             }
         } catch (err) {
             dispatch(setErrorAction(err.message));

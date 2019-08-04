@@ -70,8 +70,8 @@
     padding-top: 40px;
     flex-direction: column;
     justify-content: center;
-    #point-input {
-        width: 80%;
+
+    input[type="text"] {
         height: 3em;
         border-radius: 10px;
         margin-top: 5px;
@@ -80,6 +80,26 @@
         padding: 0 10px;
         font-size: 15px;
         box-sizing: border-box;
+
+    }
+
+    #point-input {
+        width: 80%;
+    }
+
+    .range-title {
+        width: 100%;
+        padding: 10px 40px;
+        text-align: left;
+        color: $DARKEST_BLUE;
+        box-sizing: border-box;
+    }
+
+    .input-wrapper {
+        display: flex;
+        width: 80%;
+        justify-content: space-evenly;
+        input { width: 48%; }
     }
 }
 

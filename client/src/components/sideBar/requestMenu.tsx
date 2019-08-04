@@ -6,13 +6,13 @@ import { WeatherState, loadState as LoadingStates } from "../../store/weather/ty
 import { AppState } from "../../store";
 import { fetchWeather, clearWeatherError } from "../../store/weather/actions";
 import { allDigits } from "../../shared/allDigits";
+import RangeInput from "./rangeInput";
 
 const RequestMenu: React.FC = props => {
     // Get necessary redux state and action dispatching
-    const { loadState } = useSelector<AppState, WeatherState>(state => state.weatherReducer);
+    const { loadState, error: errorMssg } = useSelector((state: AppState) => state.weatherReducer);
     const dispatch = useDispatch<ThunkDispatch<AppState, void, AnyAction>>();
-    const requestWeather = (numPoints: number) => dispatch(fetchWeather(numPoints));
-    
+
     // If error, clear after 5 seconds
     useEffect(() => {
         if (loadState === LoadingStates.ERROR) {
@@ -23,9 +23,26 @@ const RequestMenu: React.FC = props => {
     }, [loadState]);
 
     // Set component state
-    const [optionState, setOptions] = useState({
-        pointInput: ""
-    });
+    const [pointInput, setPointInput] = useState("");
+    const [latRange, setLat] = useState({ max: "", min: "" });
+    const [lonRange, setLon] = useState({ max: "", min: "" });
+
+    // Clear Component state 
+    const clearInput = () => {
+        setPointInput("");
+        setLat({ max: "", min: "" });
+        setLon({ max: "", min: "" });
+    };
+
+    const requestWeather = () => {
+        if (pointInput == "") { }
+        const points = parseInt(pointInput);
+        const minLat = latRange.min || undefined;
+        const maxLat = latRange.max || undefined;
+        const minLon = lonRange.min || undefined;
+        const maxLon = lonRange.max || undefined;
+        dispatch(fetchWeather(points, minLat, maxLat, minLon, maxLon));
+    }
 
     if (loadState === LoadingStates.LOADING) {
         return (
@@ -38,7 +55,7 @@ const RequestMenu: React.FC = props => {
     if (loadState === LoadingStates.ERROR) {
         return (
             <div id="request-menu" className="menu-wrapper">
-                <ErrorMessage />
+                <ErrorMessage message={errorMssg || ""} />
             </div>
         );
     };
@@ -50,27 +67,26 @@ const RequestMenu: React.FC = props => {
                 id="point-input"
                 type="text"
                 placeholder="Enter number of coordinates"
-                value={optionState.pointInput}
+                value={pointInput}
                 onChange={e => {
                     const { value } = e.target;
                     if (value === "" || allDigits(value))
-                        setOptions({ ...optionState, pointInput: value });
+                        setPointInput(value);
                 }}
             />
+            <br /><br />
+            <RangeInput range={latRange} setRange={setLat} title="Latitude (optional)" />
+            <RangeInput range={lonRange} setRange={setLon} title="Longitude (optional)" />
             <div className="button-wrapper">
                 <button
                     className="btn-submit"
-                    onClick={e => {
-                        requestWeather(parseInt(optionState.pointInput));
-                    }}
+                    onClick={e => requestWeather()}
                 >
                     Request
                 </button>
                 <button
                     className="btn-cancel"
-                    onClick={e => {
-                        setOptions({ pointInput: "" });
-                    }}
+                    onClick={e => clearInput()}
                 >
                     Clear
                 </button>
@@ -78,6 +94,8 @@ const RequestMenu: React.FC = props => {
         </div>
     );
 };
+
+
 
 export const Loading: React.FC = props => {
     return (
@@ -87,10 +105,13 @@ export const Loading: React.FC = props => {
     );
 }
 
-export const ErrorMessage: React.FC = props => {
+export const ErrorMessage: React.FC<{ message: string }> = props => {
     return (
         <div className="loading-mssg">
-            <h1>Error loading weather data..</h1>
+            <h1>
+                Error loading weather data..
+            </h1>
+            <div className="mssg">{props.message}</div>
         </div>
     );
 }

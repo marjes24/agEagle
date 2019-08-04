@@ -5,7 +5,7 @@ import { Range } from "../services/coordinateGenerator";
 export const validateWeatherQuery = (req: Request, res: Response, next: NextFunction) => {
     try {
         type queryArgs = { points: string, [key: string]: string };
-        
+
         // Read and validate number of points
         const { points } = <queryArgs>req.query;
         if (points == undefined) throw new QueryError("Undefined query argument: points=<int>");
@@ -13,12 +13,15 @@ export const validateWeatherQuery = (req: Request, res: Response, next: NextFunc
         if (parseInt(points) < 0) throw new QueryError("Argument points=<int> must be positive");
 
         // Read and validate ranges
-        let { maxLat, minLat, maxLon, minLon } = <queryArgs>req.query;
-        const latRange: Range = { min: -90, max: 90 };
-        const lonRange: Range = { min: -180, max: 180 };
+        const BASE_LAT: Range = { min: -90, max: 90 };
+        const BASE_LON: Range = { min: -180, max: 180 };
 
-        const inLatRange = (x: number) => inRange(x, { ...latRange });
-        const inLonRange = (x: number) => inRange(x, { ...lonRange });
+        const inLatRange = (x: number) => inRange(x, { ...BASE_LAT })
+        const inLonRange = (x: number) => inRange(x, { ...BASE_LON });
+
+        let { maxLat, minLat, maxLon, minLon } = <queryArgs>req.query;
+        const latRange: Range = { ...BASE_LAT };
+        const lonRange: Range = { ...BASE_LON };
 
         if (maxLat) {
             if (isNaN(parseInt(maxLat))) throw new QueryError("Argument maxLat=<int> is not a valid integer");
@@ -31,7 +34,7 @@ export const validateWeatherQuery = (req: Request, res: Response, next: NextFunc
         if (latRange.min > latRange.max) {
             throw new QueryError("Argument minLat cannot be greater than maxlat");
         }
-        if(!inLatRange(latRange.min) || !inLatRange(latRange.max)) { 
+        if (!inLatRange(latRange.min) || !inLatRange(latRange.max)) {
             throw new QueryError("Latitude values should be between [-90,90]");
         }
 
@@ -46,7 +49,7 @@ export const validateWeatherQuery = (req: Request, res: Response, next: NextFunc
         if (lonRange.min > lonRange.max) {
             throw new QueryError("Argument minLon cannot be greater than maxLon");
         }
-        if(!inLonRange(lonRange.min) || !inLonRange(lonRange.max)) { 
+        if (!inLonRange(lonRange.min) || !inLonRange(lonRange.max)) {
             throw new QueryError("Longitude values must be between [-180, 180]");
         }
 
