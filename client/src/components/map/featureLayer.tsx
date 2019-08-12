@@ -37,7 +37,7 @@ const FeatureLayer: React.FC = props => {
                     
                     return <Marker
                         coordinates={[wP.coord.lon, wP.coord.lat]}
-                        onClick={e => pickCoord(wP.coord)}
+                        onClick={e => { e.stopPropagation(); pickCoord(wP.coord); }}
                         key={"mrkr-" + idx}
                     >
                         <a 

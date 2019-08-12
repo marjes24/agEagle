@@ -7,6 +7,8 @@ import { AppState } from "../../store";
 import { fetchWeather, clearWeatherError } from "../../store/weather/actions";
 import { allDigits } from "../../shared/allDigits";
 import RangeInput from "./rangeInput";
+import { setDrawMode } from "../../store/map/action";
+import { DrawMode } from "../../store/map/types";
 
 const RequestMenu: React.FC = props => {
     // Get necessary redux state and action dispatching
@@ -32,6 +34,7 @@ const RequestMenu: React.FC = props => {
         setPointInput("");
         setLat({ max: "", min: "" });
         setLon({ max: "", min: "" });
+        dispatch(setDrawMode(DrawMode.NONE));
     };
 
     const requestWeather = () => {

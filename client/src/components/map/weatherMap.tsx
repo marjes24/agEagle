@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import ReactMapboxGl from 'react-mapbox-gl';
+import ReactMapboxGl, { ZoomControl } from 'react-mapbox-gl';
 
 import "./map.scss";
 import FeatureLayer from "./featureLayer";
 import Instruction from "./instruction";
+import RectControl from "./rectControl"
 
 const WeatherMap: React.FC = () => {
     const [token, setToken] = useState("");
@@ -11,18 +12,22 @@ const WeatherMap: React.FC = () => {
     //Request the token to render map
     useEffect(() => {
         const fetchToken = async () => {
-            const resp = await fetch("/key/mapbox");
-            if(resp.ok){
-                const token = await resp.text();
-                setToken(token);
+            try {
+                const resp = await fetch("/key/mapbox");
+                if (resp.ok) {
+                    const token = await resp.text();
+                    setToken(token);
+                }
+            } catch (err) {
+                console.error(err);
             }
         };
 
         fetchToken();
     }, []);
 
-    if(token === "") {
-        return <div id="map-content"/>
+    if (token === "") {
+        return <div id="map-content" />
     }
 
     const Map = ReactMapboxGl({
@@ -38,11 +43,12 @@ const WeatherMap: React.FC = () => {
                     height: '100%',
                     width: '100%'
                 }}
-                center={[-0.481747846041145, 51.3233379650232]}
+                center={[0, 0]}
                 zoom={[1]}
-                onStyleLoad={map => { console.log(map.listImages()) }}
             >
+                <ZoomControl position="bottom-right" />
                 <FeatureLayer />
+                <RectControl />
             </Map>;
         </div>
     )
