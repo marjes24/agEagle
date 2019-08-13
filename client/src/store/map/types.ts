@@ -2,26 +2,28 @@ import { Coordinate } from "../weather/types";
 
 export type MapRange = { 
     maxLat: number,
-    minlat: number, 
+    minLat: number, 
     maxLon: number, 
     minLon: number
 };
 
-export enum DrawMode { 
+export enum MapMode { 
     NONE = 0, 
+    WEATHER,
     RECT
 };
 
 export interface MapState {
     selectedLocation: Coordinate | null,
-    drawMode: DrawMode,
+    mode: MapMode,
     selectedRange: null | MapRange
 }
 
 export const SET_LOCATION = "SET_LOCATION";
 export const CLEAR_LOCATION = "CLEAR_LOCATION";
-export const SET_DRAW_MODE = "SET_DRAW_MODE";
+export const SET_MAP_MODE = "SET_MAP_MODE";
 export const SET_RANGE = "SET_RANGE";
+export const CLEAR_RANGE = "CLEAR_RANGE";
 
 export interface SetLocationAction { 
     type: typeof SET_LOCATION,
@@ -32,9 +34,9 @@ export interface ClearLocationAction {
     type: typeof CLEAR_LOCATION
 };
 
-export interface SetDrawModeAction { 
-    type: typeof SET_DRAW_MODE,
-    mode: DrawMode
+export interface SetMapModeAction { 
+    type: typeof SET_MAP_MODE,
+    mode: MapMode
 };
 
 export interface SetRangeAction { 
@@ -42,4 +44,13 @@ export interface SetRangeAction {
     range: MapRange
 }
 
-export type MapActionTypes = SetLocationAction | ClearLocationAction | SetDrawModeAction | SetRangeAction;
+export interface ClearRangeAction { 
+    type: typeof CLEAR_RANGE;
+}
+
+export type MapActionTypes = 
+    SetLocationAction | 
+    ClearLocationAction | 
+    SetMapModeAction | 
+    SetRangeAction |
+    ClearRangeAction;

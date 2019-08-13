@@ -9,3 +9,11 @@ $DARK_BACKGROUND: $DARKEST_BLUE;
 $COMMON_BACKGROUND: $DARK_BLUE;
 
 $LIGHT_GREY_BACKGROUND: #fbfbfbf2;
+
+
+@mixin grow($grow: 1.009) {
+    transition: all .2s ease-in-out; 
+    &:hover {
+        transform: scale($grow); 
+    }
+}

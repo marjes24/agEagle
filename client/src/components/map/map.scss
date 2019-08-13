@@ -11,6 +11,7 @@
     }
     &.selected {
         color: red;
+        z-index: 2;
     }
 }
 

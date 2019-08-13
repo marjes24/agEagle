@@ -6,9 +6,11 @@ import {
     SetRangeAction, 
     SET_RANGE , 
     MapRange,
-    DrawMode,
-    SetDrawModeAction,
-    SET_DRAW_MODE
+    MapMode,
+    SetMapModeAction,
+    SET_MAP_MODE,
+    ClearRangeAction,
+    CLEAR_RANGE
 } from "./types";
 import { Coordinate } from "../weather/types";
 
@@ -25,16 +27,20 @@ export const clearLocation = (): ClearLocationAction => {
     };
 };
 
-export const setRange = (range: MapRange ): SetRangeAction => {
+export const setRange = (range: MapRange): SetRangeAction => {
     return { 
         type: SET_RANGE, 
         range
     };
 };
 
-export const setDrawMode = (mode: DrawMode): SetDrawModeAction => {
+export const clearRange = (): ClearRangeAction => {
+    return { type: CLEAR_RANGE };
+};
+
+export const setMapMode = (mode: MapMode): SetMapModeAction => {
     return {
-        type: SET_DRAW_MODE, 
+        type: SET_MAP_MODE, 
         mode
     };
 };

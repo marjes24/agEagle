@@ -10,12 +10,12 @@ import { WeatherState, Coordinate } from "../../store/weather/types";
 import { setLocation } from "../../store/map/action";
 import { setSidebarDisplay } from "../../store/sideBar/action";
 import { display } from "../../store/sideBar/types";
-import { MapState } from "../../store/map/types";
+import { MapState, MapMode } from "../../store/map/types";
 import { genCoordStr } from "../../shared/genCoordString";
 
 const FeatureLayer: React.FC = props => {
     const { data } = useSelector<AppState, WeatherState>(state => state.weatherReducer);
-    const { selectedLocation } = useSelector<AppState, MapState>(state => state.MapReducer);
+    const { selectedLocation, mode } = useSelector<AppState, MapState>(state => state.MapReducer);
     const dispatch = useDispatch();
 
     const isSelected = (c: Coordinate) => {
@@ -29,7 +29,8 @@ const FeatureLayer: React.FC = props => {
         dispatch(setSidebarDisplay(display.WEATHER));
     }
 
-
+    if(mode !== MapMode.WEATHER) return <></>;
+    
     return (
         <>
             {

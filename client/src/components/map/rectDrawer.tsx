@@ -10,6 +10,7 @@ import { withMap } from "./withMap";
 interface Props {
     map: MapGl;
     onRectangle?: (coords: number[][]) => void;
+    onClear?: () => void;
 }
 
 const RectDrawer: React.FC<Props> = props => {
@@ -53,6 +54,8 @@ const RectDrawer: React.FC<Props> = props => {
             props.map.off("draw.create", onCreate);
             props.map.off("draw.delete", onDelete);
             props.map.removeControl(draw);
+            
+            if(props.onClear) props.onClear();
         }
     }, []);
 

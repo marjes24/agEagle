@@ -1,12 +1,14 @@
 import React, { FC } from "react";
 import { display } from "../../store/sideBar/types";
-import { faCloud, faSync, faSearch, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCloud, faSync, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./sideBar.scss";
+import { MapMode } from "../../store/map/types";
 
 interface Props {
     display: display;
     setDisplay: (d: display) => void;
+    setMapMode: (m: MapMode) => void;
 }
 
 const MarginMenu: FC<Props> = props => {
@@ -17,7 +19,10 @@ const MarginMenu: FC<Props> = props => {
                 <MarginItem
                     selected={displayEquals(display.WEATHER) || displayEquals(display.WEATHER_COORDS)}
                     title="Weather"
-                    onClick={() => {props.setDisplay(display.WEATHER_COORDS)}}
+                    onClick={() => {
+                        props.setDisplay(display.WEATHER_COORDS);
+                        props.setMapMode(MapMode.WEATHER);
+                    }}
                 >
                     <FontAwesomeIcon
                         icon={faCloud}
@@ -25,10 +30,13 @@ const MarginMenu: FC<Props> = props => {
                         color="white"
                     />
                 </MarginItem>
-                <MarginItem 
-                    selected={displayEquals(display.WEATHER_REQUEST)} 
+                <MarginItem
+                    selected={displayEquals(display.WEATHER_REQUEST)}
                     title="Data Request"
-                    onClick={() => {props.setDisplay(display.WEATHER_REQUEST)}}
+                    onClick={() => {
+                        props.setDisplay(display.WEATHER_REQUEST);
+                        props.setMapMode(MapMode.NONE);
+                    }}
                 >
                     <FontAwesomeIcon
                         icon={faSync}
@@ -39,25 +47,17 @@ const MarginMenu: FC<Props> = props => {
                 <MarginItem
                     selected={displayEquals(display.ADD_COORD)}
                     title="Add coordinate"
-                    onClick={() => {props.setDisplay(display.ADD_COORD)}}
+                    onClick={() => {
+                        props.setDisplay(display.ADD_COORD)
+                        props.setMapMode(MapMode.WEATHER);
+                    }}
                 >
-                    <FontAwesomeIcon 
+                    <FontAwesomeIcon
                         icon={faPlus}
                         size="lg"
                         color="white"
                     />
                 </MarginItem>
-                {/* <MarginItem 
-                    selected={displayEquals(display.SEARCH)} 
-                    title="Search"
-                    onClick={() => {props.setDisplay(display.SEARCH)}}
-                >
-                    <FontAwesomeIcon
-                        icon={faSearch}
-                        size="lg"
-                        color="white"
-                    />
-                </MarginItem> */}
             </ul>
         </div>
     );
@@ -66,7 +66,7 @@ const MarginMenu: FC<Props> = props => {
 const MarginItem: FC<{ selected: boolean, title: string, onClick: () => void }> = props => {
     return (
         <li
-            className={"nav" + (props.selected ? " selected" : "" )}
+            className={"nav" + (props.selected ? " selected" : "")}
             title={props.title}
             onClick={e => props.onClick()}
         >

@@ -87,17 +87,66 @@
         width: 80%;
     }
 
+    #range-option {
+        width: 80%;
+        line-height: 1.5em;
+        box-sizing: border-box;
+        padding: 0 10px;
+        font-size: 15px;
+        margin-top: 5px;
+        border-radius: 10px;
+        // color: $DARKEST_BLUE;
+        // background-color: white;
+        background-color: $MIDDLE_BLUE;
+        color: white;
+        //font-weight: 700;
+
+        &.close {
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        .btn-title {
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        input {
+            border-color: $MIDDLE_BLUE;
+            border-style: solid;
+            border-width: 1px;
+            height: 2.25em;
+
+            &:disabled {
+                color: $DARKEST_BLUE;
+            }
+        }
+
+        .expand { 
+            line-height: 1em;
+            text-align: center;
+            padding: 5px 0;
+            &:hover { 
+                cursor: pointer;
+            }
+             
+            @include grow(1.25);
+        }
+    }
+
     .range-title {
         width: 100%;
-        padding: 10px 40px;
+        padding: 5px 5px;
         text-align: left;
-        color: $DARKEST_BLUE;
+        //color: $DARKEST_BLUE;
+        color: white;
         box-sizing: border-box;
     }
 
     .input-wrapper {
         display: flex;
-        width: 80%;
+        width: 100%;
         justify-content: space-evenly;
         input { width: 48%; }
     }

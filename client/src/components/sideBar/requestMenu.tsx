@@ -2,17 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
-import { WeatherState, loadState as LoadingStates } from "../../store/weather/types";
+import { loadState as LoadingStates } from "../../store/weather/types";
 import { AppState } from "../../store";
 import { fetchWeather, clearWeatherError } from "../../store/weather/actions";
 import { allDigits } from "../../shared/allDigits";
-import RangeInput from "./rangeInput";
-import { setDrawMode } from "../../store/map/action";
-import { DrawMode } from "../../store/map/types";
+import RangeOption from "./rangeOption";
+import { setMapMode } from "../../store/map/action";
+import { MapMode } from "../../store/map/types";
 
 const RequestMenu: React.FC = props => {
     // Get necessary redux state and action dispatching
     const { loadState, error: errorMssg } = useSelector((state: AppState) => state.weatherReducer);
+    const { selectedRange } = useSelector((state: AppState) => state.MapReducer);
     const dispatch = useDispatch<ThunkDispatch<AppState, void, AnyAction>>();
 
     // If error, clear after 5 seconds
@@ -26,26 +27,39 @@ const RequestMenu: React.FC = props => {
 
     // Set component state
     const [pointInput, setPointInput] = useState("");
-    const [latRange, setLat] = useState({ max: "", min: "" });
-    const [lonRange, setLon] = useState({ max: "", min: "" });
 
     // Clear Component state 
     const clearInput = () => {
         setPointInput("");
-        setLat({ max: "", min: "" });
-        setLon({ max: "", min: "" });
-        dispatch(setDrawMode(DrawMode.NONE));
+    };
+
+    const clearMap = () => {
+        dispatch(setMapMode(MapMode.NONE));
+        setTimeout(() => {
+            dispatch(setMapMode(MapMode.RECT));
+        }, 500)
+    };
+
+    const clear = () => { 
+        clearInput();
+        clearMap();
     };
 
     const requestWeather = () => {
         if (pointInput == "") { }
         const points = parseInt(pointInput);
-        const minLat = latRange.min || undefined;
-        const maxLat = latRange.max || undefined;
-        const minLon = lonRange.min || undefined;
-        const maxLon = lonRange.max || undefined;
-        dispatch(fetchWeather(points, minLat, maxLat, minLon, maxLon));
-    }
+        if(selectedRange) {
+            const { 
+                minLat,
+                maxLat, 
+                minLon, 
+                maxLon
+            } = selectedRange;
+            dispatch(fetchWeather(points, minLat, maxLat, minLon, maxLon));
+        } else {
+            dispatch(fetchWeather(points));
+        }
+    };
 
     if (loadState === LoadingStates.LOADING) {
         return (
@@ -78,8 +92,7 @@ const RequestMenu: React.FC = props => {
                 }}
             />
             <br /><br />
-            <RangeInput range={latRange} setRange={setLat} title="Latitude (optional)" />
-            <RangeInput range={lonRange} setRange={setLon} title="Longitude (optional)" />
+            <RangeOption />
             <div className="button-wrapper">
                 <button
                     className="btn-submit"
@@ -89,7 +102,7 @@ const RequestMenu: React.FC = props => {
                 </button>
                 <button
                     className="btn-cancel"
-                    onClick={e => clearInput()}
+                    onClick={e => clear()}
                 >
                     Clear
                 </button>
