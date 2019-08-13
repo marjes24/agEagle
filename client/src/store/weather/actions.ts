@@ -113,6 +113,7 @@ export const fetchWeatherPoint = (coord: Coordinate): ThunkReturn<Promise<void>>
                 const data: WeatherPoint[] = await resp.json();
                 dispatch(addWeatherData(data));
                 dispatch(setLocation(coord));
+                dispatch(setMapMode(MapMode.WEATHER));
                 dispatch(setSidebarDisplay(display.WEATHER));
             } else {
                 throw Error("Error fetching weather data for coordinate: " + genCoordStr(coord));

@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { allDigits } from "../../shared/allDigits";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWeatherPoint } from "../../store/weather/actions";
 import { ErrorMessage, Loading } from "./requestMenu";
 import { AppState } from "../../store";
 import { loadState as LoadingStates } from "../../store/weather/types";
+import { setMapMode } from "../../store/map/action";
+import { MapMode } from "../../store/map/types";
 
 const validInput = (s: string) => {
     // Check if empty or if negative
@@ -20,18 +22,11 @@ const validInput = (s: string) => {
 const AddWeatherMenu: React.FC = props => {
     const dispatch = useDispatch();
     const { loadState, error: errMessage } = useSelector((state: AppState) => state.weatherReducer);
+    const { selectedPointToAdd } = useSelector((state: AppState) => state.MapReducer);
     const [coord, setOptions] = useState({
         lon: "",
         lat: ""
     });
-
-    const setLon = (s: string) => {
-        if (validInput(s)) setOptions({ ...coord, lon: s });
-    }
-
-    const setLat = (s: string) => {
-        if (validInput(s)) setOptions({ ...coord, lat: s });
-    }
 
     const addPoint = () => {
         const { lat, lon } = coord;
@@ -45,6 +40,38 @@ const AddWeatherMenu: React.FC = props => {
         }));
     }
 
+    const clearMap = () => {
+        dispatch(setMapMode(MapMode.WEATHER));
+        setTimeout(() => {
+            dispatch(setMapMode(MapMode.POINT));
+        }, 200)
+    };
+
+    const clear = () => {
+        clearMap();
+        setOptions({ lat: "", lon: "" });
+    }
+
+    const setLon = (s: string) => {
+        if(selectedPointToAdd) clearMap();
+        if (validInput(s)) setOptions({ ...coord, lon: s });
+    }
+
+    const setLat = (s: string) => {
+        if(selectedPointToAdd) clearMap();
+        if (validInput(s)) setOptions({ ...coord, lat: s });
+    }
+
+    useEffect(() => {
+        if(selectedPointToAdd) {
+            setOptions({
+                lat: selectedPointToAdd.lat.toString(),
+                lon: selectedPointToAdd.lon.toString()
+            });
+        }
+    }, [selectedPointToAdd]);
+
+
     if (loadState === LoadingStates.LOADING) {
         return (
             <div id="add-weather-menu" className="menu-wrapper">
@@ -56,7 +83,7 @@ const AddWeatherMenu: React.FC = props => {
     if (loadState === LoadingStates.ERROR) {
         return (
             <div id="add-weather-menu" className="menu-wrapper">
-                <ErrorMessage message={errMessage || "" }/>
+                <ErrorMessage message={errMessage || ""} />
             </div>
         );
     };
@@ -85,9 +112,7 @@ const AddWeatherMenu: React.FC = props => {
                 </button>
                 <button
                     className="btn-cancel"
-                    onClick={e => {
-                        setOptions({ lat: "", lon: "" });
-                    }}
+                    onClick={e => clear()}
                 >
                     Clear
                 </button>

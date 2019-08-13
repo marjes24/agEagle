@@ -6,13 +6,16 @@ import {
     SET_MAP_MODE,
     SET_RANGE,
     MapMode,
-    CLEAR_RANGE
+    CLEAR_RANGE,
+    ADD_POINT,
+    CLEAR_POINT
 } from "./types";
 
 const initialState: MapState = {
     selectedLocation: null,
     mode: MapMode.NONE,
-    selectedRange: null
+    selectedRange: null,
+    selectedPointToAdd: null
 };
 
 export const MapReducer = (
@@ -37,6 +40,16 @@ export const MapReducer = (
             return {
                 ...state,
                 selectedRange: null
+            };
+        case ADD_POINT: 
+            return {
+                ...state, 
+                selectedPointToAdd: action.coord
+            };
+        case CLEAR_POINT: 
+            return {
+                ...state, 
+                selectedPointToAdd: null
             };
         default:
             return state;

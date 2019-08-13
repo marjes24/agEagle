@@ -5,13 +5,12 @@ import MapboxDraw from "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw"
 import DrawRectangle from "mapbox-gl-draw-rectangle-mode";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css"
 
-import { withMap } from "./withMap";
+import { withMap, WithMapProps } from "./withMap";
 
-interface Props {
-    map: MapGl;
+type Props = WithMapProps<{
     onRectangle?: (coords: number[][]) => void;
     onClear?: () => void;
-}
+}>
 
 const RectDrawer: React.FC<Props> = props => {
 
@@ -43,7 +42,7 @@ const RectDrawer: React.FC<Props> = props => {
 
         const onDelete = () => {
             draw.changeMode("draw_rectangle");
-            if(props.onRectangle) props.onRectangle([[0,0]]);
+            if (props.onRectangle) props.onRectangle([[0, 0]]);
         }
 
         props.map.on("draw.create", onCreate);
@@ -54,8 +53,8 @@ const RectDrawer: React.FC<Props> = props => {
             props.map.off("draw.create", onCreate);
             props.map.off("draw.delete", onDelete);
             props.map.removeControl(draw);
-            
-            if(props.onClear) props.onClear();
+
+            if (props.onClear) props.onClear();
         }
     }, []);
 

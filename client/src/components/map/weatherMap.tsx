@@ -5,6 +5,7 @@ import "./map.scss";
 import FeatureLayer from "./featureLayer";
 import Instruction from "./instruction";
 import RectControl from "./rectControl"
+import PointControl from "./pointControl";
 
 const WeatherMap: React.FC = () => {
     const [token, setToken] = useState("");
@@ -49,6 +50,7 @@ const WeatherMap: React.FC = () => {
                 <ZoomControl position="bottom-right" />
                 <FeatureLayer />
                 <RectControl />
+                <PointControl />
             </Map>;
         </div>
     )

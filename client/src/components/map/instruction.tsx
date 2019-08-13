@@ -22,6 +22,12 @@ const Instruction: React.FC = () => {
                 Click on map to draw coordinate bounds
             </div>
         );
+    } else if (mode === MapMode.POINT) {
+        return (
+            <div className="map-instruction">
+                Click on the map to select a point
+            </div>
+        );
     } else {
         return null;
     }

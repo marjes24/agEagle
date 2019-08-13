@@ -10,13 +10,15 @@ export type MapRange = {
 export enum MapMode { 
     NONE = 0, 
     WEATHER,
-    RECT
+    RECT,
+    POINT
 };
 
 export interface MapState {
     selectedLocation: Coordinate | null,
     mode: MapMode,
-    selectedRange: null | MapRange
+    selectedRange: null | MapRange, 
+    selectedPointToAdd: Coordinate | null
 }
 
 export const SET_LOCATION = "SET_LOCATION";
@@ -24,6 +26,8 @@ export const CLEAR_LOCATION = "CLEAR_LOCATION";
 export const SET_MAP_MODE = "SET_MAP_MODE";
 export const SET_RANGE = "SET_RANGE";
 export const CLEAR_RANGE = "CLEAR_RANGE";
+export const ADD_POINT = "ADD_POINT";
+export const CLEAR_POINT = "CLEAR_POINT";
 
 export interface SetLocationAction { 
     type: typeof SET_LOCATION,
@@ -35,17 +39,26 @@ export interface ClearLocationAction {
 };
 
 export interface SetMapModeAction { 
-    type: typeof SET_MAP_MODE,
-    mode: MapMode
+    type: typeof SET_MAP_MODE;
+    mode: MapMode;
 };
 
 export interface SetRangeAction { 
-    type: typeof SET_RANGE,
-    range: MapRange
+    type: typeof SET_RANGE;
+    range: MapRange;
 }
 
 export interface ClearRangeAction { 
     type: typeof CLEAR_RANGE;
+}
+
+export interface AddPointAction { 
+    type: typeof ADD_POINT;
+    coord: Coordinate;
+}
+
+export interface ClearPointAction { 
+    type: typeof CLEAR_POINT;
 }
 
 export type MapActionTypes = 
@@ -53,4 +66,6 @@ export type MapActionTypes =
     ClearLocationAction | 
     SetMapModeAction | 
     SetRangeAction |
-    ClearRangeAction;
+    ClearRangeAction |
+    AddPointAction |
+    ClearPointAction;

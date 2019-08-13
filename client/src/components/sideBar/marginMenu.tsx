@@ -49,7 +49,7 @@ const MarginMenu: FC<Props> = props => {
                     title="Add coordinate"
                     onClick={() => {
                         props.setDisplay(display.ADD_COORD)
-                        props.setMapMode(MapMode.WEATHER);
+                        props.setMapMode(MapMode.POINT);
                     }}
                 >
                     <FontAwesomeIcon

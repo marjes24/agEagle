@@ -29,7 +29,7 @@ const FeatureLayer: React.FC = props => {
         dispatch(setSidebarDisplay(display.WEATHER));
     }
 
-    if(mode !== MapMode.WEATHER) return <></>;
+    if(!(mode == MapMode.WEATHER || mode == MapMode.POINT)) return <></>;
     
     return (
         <>
