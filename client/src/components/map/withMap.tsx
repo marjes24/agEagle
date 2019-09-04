@@ -13,7 +13,7 @@ export function withMap<P>(C: ComponentType<WithMapProps<P>>) {
     const fc: React.FC<P> = props => (
         <MapContext.Consumer>
             {
-                map => <C map={map! as MapGl} {...props} />
+                map => <C map={map! as MapGl} {...props as P} />
             }
         </MapContext.Consumer>
     );
