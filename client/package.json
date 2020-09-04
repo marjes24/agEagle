@@ -14,7 +14,7 @@
     "@types/react-dom": "16.8.5",
     "mapbox-gl": "^1.2.0",
     "mapbox-gl-draw-rectangle-mode": "^1.0.4",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-mapbox-gl": "^4.6.0",
